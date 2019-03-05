@@ -4,11 +4,13 @@ AquaHash is a 128-bit non-cryptographic hash function that delivers state-of-the
 
 ## Performance
 
-AquaHash substantially outperforms most common hash functions at all key sizes on recent CPUs. On Skylake CPUs, bulk hashing performance is an exceptional 15 bytes/cycle. Small key performance is nearly twice that of popular small key algorithms. Some reduction in relative performance is expected on older CPUs with slower AES intrinsics but should remain competitive due to the large differences in baseline performance.
+AquaHash substantially outperforms most common hash functions at all key sizes on recent CPUs. Bulk hashing performance is an exceptional 15 bytes/cycle. Small key performance is nearly twice that of other modern small key algorithms. 
 
 The performance graph below includes xxhash64 and Google's FarmHash for reference, popular algorithms optimized for small keys and large keys respectively. Intel’s Skylake microarchitecture was used to measure all algorithms.
 
 ![Small Key Performance](aquahash.png) 
+
+Some reduction in relative performance is expected on older CPUs with slower AES intrinsics but should remain competitive due to the large differences in baseline performance.
 
 ## Usage
 
