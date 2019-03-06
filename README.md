@@ -40,7 +40,7 @@ aqua.Initialize(__m128i seed = _mm_setzero_si128());
 
 ### Component Algorithms
 
-AquaHash is a hybrid of two general purpose hashing algorithms that were designed separately, optimized for large keys and small keys respectively. These are included for reference and fully functional for all key sizes:
+AquaHash is a composite of two general purpose hashing algorithms that were designed separately, optimized for large keys and small keys respectively. These are included for reference and fully functional for all key sizes:
 
 ```
 __m128i hash = AquaHash::SmallKeyAlgorithm(uint8_t * key, size_t bytes, __m128i seed = _mm_setzero_si128());
