@@ -10,7 +10,7 @@
 template <typename T> bool test_pod_type(T x, T y) {
     const __m128i seed = _mm_setzero_si128();
     return _mm_test_all_ones(
-        _mm_cmpeq_epi8(AquaHash::Hash((uint8_t *)(&x), sizeof(int), seed), AquaHash::Hash((uint8_t *)(&y), sizeof(int), seed)));
+        _mm_cmpeq_epi8(AquaHash::Hash((uint8_t *)(&x), sizeof(T), seed), AquaHash::Hash((uint8_t *)(&y), sizeof(T), seed)));
 }
 
 bool test_string_type(const std::string &first, const std::string &second) {
