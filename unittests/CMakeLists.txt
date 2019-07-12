@@ -26,9 +26,11 @@ include(CXXFeatureCheck)
 SET(CMAKE_CXX_COMPILER clang++)
 # add_cxx_compiler_flag(-stdlib=libc++)
 
-set(CMAKE_BUILD_TYPE Debug)
-# set (CMAKE_BUILD_TYPE Release)
-# add_cxx_compiler_flag(-O3)
+# set(CMAKE_BUILD_TYPE Debug)
+
+set (CMAKE_BUILD_TYPE Release)
+add_cxx_compiler_flag(-O3)
+add_cxx_compiler_flag(-march=native)
 
 # Enable other flags
 add_cxx_compiler_flag(-std=c++14)
