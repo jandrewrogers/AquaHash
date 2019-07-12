@@ -5,13 +5,6 @@
 #include <string>
 #include <tuple>
 #include <vector>
-
-#include <cassert>
-#include <cinttypes>
-#include <cstring>
-#include <limits>
-#include <smmintrin.h>
-#include <wmmintrin.h>
 #include <x86intrin.h>
 
 template <typename T> bool test_pod_type(T x, T y) {
