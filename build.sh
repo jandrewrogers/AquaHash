@@ -1,5 +1,5 @@
 #!/bin/bash
-root_dir=$(PWD)
+root_dir="$PWD"
 echo "root_dir = $root_dir"
 
 # Update all 3p modules
