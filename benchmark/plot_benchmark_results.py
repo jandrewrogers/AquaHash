@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import argparse
 import matplotlib.pyplot as plt
 import json
@@ -31,7 +31,7 @@ def plot_results(prefix, N, YLIM):
             elif (benchmark_name == "aquahash_string"):
                 aquahash_results[idx] = info["real_time"]
             else:
-                print("How can we get here?")
+                print(f"Unrecognized benchmark_name: '{benchmark_name}'")
 
     # Plot results
     x = np.arange(1, N + 1, 1)
