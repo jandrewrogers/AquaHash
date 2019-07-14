@@ -7,12 +7,10 @@ import numpy as np
 def plot_results(prefix, N, YLIM):
     # Get the benchmark results for each hash functions.
     std_hash_results = np.zeros(N, dtype=float)
-    clhash_results = np.zeros(N, dtype=float)
     boost_hash_results = np.zeros(N, dtype=float)
     xxhash_results = np.zeros(N, dtype=float)
     farmhash_results = np.zeros(N, dtype=float)
-    hybrid_hash_results = np.zeros(N, dtype=float)
-    meowhash_results = np.zeros(N, dtype=float)
+    aquahash_results = np.zeros(N, dtype=float)
     for idx in range(0, N):
         data_file = prefix + str(idx + 1) + ".json"
         # print("data_file: ", data_file)
@@ -24,31 +22,27 @@ def plot_results(prefix, N, YLIM):
             benchmark_name = info["name"]
             if (benchmark_name == "std_hash_string"):
                 std_hash_results[idx] = info["real_time"]
-            elif (benchmark_name == "clhash_string"):
-                clhash_results[idx] = info["real_time"]
             elif (benchmark_name == "boost_hash_string"):
                 boost_hash_results[idx] = info["real_time"]
-            elif (benchmark_name == "hybrid_hash_string"):
-                hybrid_hash_results[idx] = info["real_time"]
             elif (benchmark_name == "xxhash_string"):
                 xxhash_results[idx] = info["real_time"]
             elif (benchmark_name == "farmhash_string"):
                 farmhash_results[idx] = info["real_time"]
-            elif (benchmark_name == "meowhash_string"):
-                meowhash_results[idx] = info["real_time"]
+            elif (benchmark_name == "aquahash_string"):
+                aquahash_results[idx] = info["real_time"]
             else:
                 print("How can we get here?")
 
     # Plot results
     x = np.arange(1, N + 1, 1)
     lines = plt.plot(
-        x, std_hash_results, "r-+", x, clhash_results, "b-o", x, boost_hash_results, 'g-', x, hybrid_hash_results, 'y-^', x, xxhash_results, 'g-v', x, farmhash_results, 'm-*', x, meowhash_results, 'r-o')
+        x, std_hash_results, "r-+", x, boost_hash_results, "b-o", x, xxhash_results, 'g-', x, farmhash_results, 'y-^', x, aquahash_results, 'g-v')
     plt.xlabel("String length (bytes)")
     plt.ylabel("Run time (ns)")
     plt.ylim(0, YLIM)
     plt.xlim(1, N)
     plt.grid()
-    plt.legend(lines, ('std::hash', 'clhash', 'boost::hash', 'hybrid_hash', 'xxHash', 'farmhash', 'meowhash'))
+    plt.legend(lines, ('std::hash', 'boost::hash', 'xxHash', 'farmhash', 'aquahash'))
     plt.title("Hash functions performance analysis with random strings");
     plt.show()
 

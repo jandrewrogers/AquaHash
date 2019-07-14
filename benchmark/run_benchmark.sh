@@ -1,5 +1,5 @@
 #!/bin/bash
-N=4096
+N=1024
 mkdir -p data
 
 # Compile all benchmarks
