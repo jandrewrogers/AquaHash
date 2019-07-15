@@ -1,4 +1,4 @@
-[I]PROJECT(TOOLS)
+PROJECT(unittests)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
@@ -38,7 +38,7 @@ add_cxx_compiler_flag(-Wall)
 add_cxx_compiler_flag(-pedantic)
 add_cxx_compiler_flag(-pedantic-errors)
 add_cxx_compiler_flag(-fstrict-aliasing)
-add_cxx_compiler_flag(-fsanitize=address)
+# add_cxx_compiler_flag(-fsanitize=address)
 
 if (HAVE_CXX_FLAG_FSTRICT_ALIASING)
   add_cxx_compiler_flag(-Wstrict-aliasing)
