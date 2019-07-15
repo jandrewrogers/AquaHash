@@ -13,6 +13,7 @@
 #include "farmhash.h"
 #include "farmhash.cc"
 #include "aquahash.h"
+#include "clhash.h"
 
 class CharGenerator {
   public:
@@ -75,6 +76,15 @@ void farmhash_string(benchmark::State &state) {
     }
 }
 BENCHMARK(farmhash_string);
+
+// clhash benchmark
+void clhash_string(benchmark::State &state) {
+    util::CLHash clhash;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(clhash(test_string.data(), test_string.size()));
+    }
+}
+BENCHMARK(clhash_string);
 
 // AquaHash
 const __m128i seed = _mm_setzero_si128();

@@ -10,6 +10,7 @@ def plot_results(prefix, N, YLIM):
     boost_hash_results = np.zeros(N, dtype=float)
     xxhash_results = np.zeros(N, dtype=float)
     farmhash_results = np.zeros(N, dtype=float)
+    clhash_results = np.zeros(N, dtype=float)
     aquahash_results = np.zeros(N, dtype=float)
     for idx in range(0, N):
         data_file = prefix + str(idx + 1) + ".json"
@@ -30,6 +31,8 @@ def plot_results(prefix, N, YLIM):
                 farmhash_results[idx] = info["real_time"]
             elif (benchmark_name == "aquahash_string"):
                 aquahash_results[idx] = info["real_time"]
+            elif (benchmark_name == "clhash_string"):
+                clhash_results[idx] = info["real_time"]                
             else:
                 print(f"Unrecognized benchmark_name: '{benchmark_name}'")
 
@@ -43,7 +46,7 @@ def plot_results(prefix, N, YLIM):
     plt.xlim(1, N)
     plt.grid()
     plt.legend(lines, ('std::hash', 'boost::hash', 'xxHash', 'farmhash', 'aquahash'))
-    plt.title("Hash functions performance analysis with random strings");
+    plt.title("Hash functions performance analysis using randomly strings");
     plt.show()
 
 # Parse input arguments
