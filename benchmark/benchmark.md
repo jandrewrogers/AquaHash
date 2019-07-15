@@ -1,8 +1,8 @@
-* Introduction
+# Introduction #
 
-* How to 
+# How to #
 
-** Compile the benchmark code
+### Compile the benchmark code ###
 
 I have a hard time compile the code using GNU gcc, try clang if you do not want to see [misterious error messages](https://github.com/jandrewrogers/AquaHash/issues/1).
 
@@ -16,11 +16,11 @@ I have a hard time compile the code using GNU gcc, try clang if you do not want 
 
 **Plot the results**
 
-* Experiment setup
+# Experiment setup #
 
-** Environments
+## Test environments ##
 
-*** Linux
+### Linux ###
 
 **CPU**
 ``` shell
@@ -34,7 +34,7 @@ CPU Caches:
 
 **Compiler**: clang-8.0.0
 
-*** MacOS
+### MacOS ###
 
 **CPU**
 
@@ -49,32 +49,34 @@ CPU Caches:
 
 **Compiler**: clang-8.0.0
 
-** Test data
+## Test data ##
 
-*** Hash functions
+### Hash functions ###
+
 This benchmark will generate a random string then collect the performance benchmark results for each hash functions. The output data will be stored in JSON format. 
 
-*** Hash table
+### Hash table ###
+
 This benchmark will use a hash table to construct a hash set from randomly generated strings.
 
-* Benchmark results
+# Results #
 
-* Linux
-
-**Short string benchmarks**
-
-
-**Long string benchmarks**
-
-* MacOS
+## Linux ##
 
 **Short string benchmarks**
 
 
 **Long string benchmarks**
 
+## MacOS ##
 
-* Window Linux Subsystem
+**Short string benchmarks**
+
+
+**Long string benchmarks**
+
+
+## Window Linux Subsystem ##
 
 **Short string benchmarks**
 
