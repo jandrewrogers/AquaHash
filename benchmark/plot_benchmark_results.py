@@ -39,14 +39,14 @@ def plot_results(prefix, N, YLIM):
     # Plot results
     x = np.arange(1, N + 1, 1)
     lines = plt.plot(
-        x, std_hash_results, "r-", x, boost_hash_results, "b-", x, xxhash_results, 'k-', x, farmhash_results, 'y-', x, aquahash_results, 'g-')
+        x, std_hash_results, "r-", x, boost_hash_results, "b-", x, xxhash_results, 'k-', x, farmhash_results, 'y-', clhash_results, 'k-.', x, aquahash_results, 'g-')
     plt.xlabel("String length (bytes)")
     plt.ylabel("Run time (ns)")
     plt.ylim(0, YLIM)
     plt.xlim(1, N)
     plt.grid()
-    plt.legend(lines, ('std::hash', 'boost::hash', 'xxHash', 'farmhash', 'aquahash'))
-    plt.title("Hash functions performance analysis using randomly strings");
+    plt.legend(lines, ('std::hash', 'boost::hash', 'xxHash', 'farmhash', 'clhash', 'aquahash'))
+    plt.title("Hash functions performance analysis using random strings");
     plt.show()
 
 # Parse input arguments
