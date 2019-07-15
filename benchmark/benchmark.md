@@ -1,7 +1,10 @@
 * Introduction
+
 * How to 
+
 ** Compile the benchmark code
-*I have a hard time compile the code using GNU gcc, try clang if you do not want to see misterious error messages.*
+
+I have a hard time compile the code using GNU gcc, try clang if you do not want to see [misterious error messages](https://github.com/jandrewrogers/AquaHash/issues/1).
 
 **Download the source code**
 
@@ -53,3 +56,27 @@ This benchmark will generate a random string then collect the performance benchm
 
 *** Hash table
 This benchmark will use a hash table to construct a hash set from randomly generated strings.
+
+* Benchmark results
+
+* Linux
+
+**Short string benchmarks**
+
+
+**Long string benchmarks**
+
+* MacOS
+
+**Short string benchmarks**
+
+
+**Long string benchmarks**
+
+
+* Window Linux Subsystem
+
+**Short string benchmarks**
+
+**Long string benchmarks**
+
