@@ -10,6 +10,7 @@
 
 #define XXH_INLINE_ALL
 #include "xxhash.h"
+
 #include "farmhash.h"
 #include "farmhash.cc"
 #include "aquahash.h"

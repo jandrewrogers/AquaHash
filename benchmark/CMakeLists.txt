@@ -2,7 +2,7 @@ PROJECT(TOOLS)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 set(ROOT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../")
-set(EXTERNAL_DIR "${ROOT_DIR}/../3p")
+set(EXTERNAL_DIR "${ROOT_DIR}/3p")
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 # CMake build flags
@@ -41,7 +41,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Include other headers such as fmt library.
 include_directories ("${EXTERNAL_DIR}/include")
 include_directories ("${EXTERNAL_DIR}/src/farmhash/src")
-include_directories ("${EXTERNAL_DIR}/src/xxhash/")
+include_directories ("${EXTERNAL_DIR}/src/xxHash/")
 
 # Include clhash headers
 include_directories ("${ROOT_DIR}/src")
