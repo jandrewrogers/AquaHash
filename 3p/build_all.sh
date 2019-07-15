@@ -10,8 +10,9 @@ printf "Build FMT\n"
 printf "Build benchmark\n"
 ./build_using_cmake.sh benchmark "-DBENCHMARK_ENABLE_GTEST_TESTS=OFF" > /dev/null
 
-printf "Build google farmhash\n"
-./build_using_configure.sh farmhash
+# Cannot build farmhash in Linux because of the aclocal automake versions.
+# printf "Build google farmhash\n"
+# ./build_using_configure.sh farmhash
 
 printf "Build xxhash\n"
 ./build_using_make.sh xxhash
