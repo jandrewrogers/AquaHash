@@ -17,12 +17,14 @@
 
 #include <cassert>
 #include <cstring>
-#include <stdint.h>
 #include <limits>
 #include <smmintrin.h>
+#include <stdint.h>
 #include <wmmintrin.h>
 
 class AquaHash {
+    static constexpr unsigned int THRESHOLD = 64;
+
   private:
     // INCREMENTAL CONSTRUCTION STATE
 
@@ -41,7 +43,8 @@ class AquaHash {
 
   public:
     // Reference implementation of AquaHash small key algorithm
-    static __m128i SmallKeyAlgorithm(const uint8_t *key, const size_t bytes, __m128i initialize = _mm_setzero_si128()) {
+    static __m128i SmallKeyAlgorithm(const uint8_t *key, const size_t bytes,
+                                     __m128i initialize = _mm_setzero_si128()) {
         assert(bytes <= max_input);
         __m128i hash = initialize;
 
@@ -66,21 +69,22 @@ class AquaHash {
         }
 
         if (bytes & 4) {
-            __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8), 0xd210d232);
+            __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8),
+                                      0xd210d232);
             hash = _mm_xor_si128(hash, b);
             ptr8 += 4;
         }
 
         if (bytes & 2) {
-            __m128i b = _mm_set_epi16(0xbd3d, 0xc2b7, 0xb87c, 0x4715, 0x6a6c, 0x9527, *reinterpret_cast<const uint16_t *>(ptr8),
-                                      0xac2e);
+            __m128i b = _mm_set_epi16(0xbd3d, 0xc2b7, 0xb87c, 0x4715, 0x6a6c, 0x9527,
+                                      *reinterpret_cast<const uint16_t *>(ptr8), 0xac2e);
             hash = _mm_xor_si128(hash, b);
             ptr8 += 2;
         }
 
         if (bytes & 1) {
-            __m128i b = _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f, 0x24, 0xb2, 0xa8,
-                                     *reinterpret_cast<const uint8_t *>(ptr8), 0x31);
+            __m128i b = _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f, 0x24,
+                                     0xb2, 0xa8, *reinterpret_cast<const uint8_t *>(ptr8), 0x31);
             hash = _mm_xor_si128(hash, b);
         }
 
@@ -91,14 +95,16 @@ class AquaHash {
     }
 
     // Reference implementation of AquaHash large key algorithm
-    static __m128i LargeKeyAlgorithm(const uint8_t *key, const size_t bytes, __m128i initialize = _mm_setzero_si128()) {
+    static __m128i LargeKeyAlgorithm(const uint8_t *key, const size_t bytes,
+                                     __m128i initialize = _mm_setzero_si128()) {
         assert(bytes <= max_input);
 
         // initialize 4 x 128-bit hashing lanes, for a 512-bit block size
-        __m128 block[4] = {_mm_xor_si128(initialize, _mm_set_epi64x(0xa11202c9b468bea1, 0xd75157a01452495b)),
-                           _mm_xor_si128(initialize, _mm_set_epi64x(0xb1293b3305418592, 0xd210d232c6429b69)),
-                           _mm_xor_si128(initialize, _mm_set_epi64x(0xbd3dc2b7b87c4715, 0x6a6c9527ac2e0e4e)),
-                           _mm_xor_si128(initialize, _mm_set_epi64x(0xcc96ed1674eaaa03, 0x1e863f24b2a8316a))};
+        __m128 block[4] = {
+            _mm_xor_si128(initialize, _mm_set_epi64x(0xa11202c9b468bea1, 0xd75157a01452495b)),
+            _mm_xor_si128(initialize, _mm_set_epi64x(0xb1293b3305418592, 0xd210d232c6429b69)),
+            _mm_xor_si128(initialize, _mm_set_epi64x(0xbd3dc2b7b87c4715, 0x6a6c9527ac2e0e4e)),
+            _mm_xor_si128(initialize, _mm_set_epi64x(0xcc96ed1674eaaa03, 0x1e863f24b2a8316a))};
 
         // bulk hashing loop -- 512-bit block size
         const __m128i *ptr128 = reinterpret_cast<const __m128i *>(key);
@@ -128,33 +134,36 @@ class AquaHash {
         }
 
         if (bytes & 4) {
-            __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8), 0xd210d232);
+            __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8),
+                                      0xd210d232);
             block[0] = _mm_aesenc_si128(block[0], b);
             ptr8 += 4;
         }
 
         if (bytes & 2) {
-            __m128i b = _mm_set_epi16(0xbd3d, 0xc2b7, 0xb87c, 0x4715, 0x6a6c, 0x9527, *reinterpret_cast<const uint16_t *>(ptr8),
-                                      0xac2e);
+            __m128i b = _mm_set_epi16(0xbd3d, 0xc2b7, 0xb87c, 0x4715, 0x6a6c, 0x9527,
+                                      *reinterpret_cast<const uint16_t *>(ptr8), 0xac2e);
             block[1] = _mm_aesenc_si128(block[1], b);
             ptr8 += 2;
         }
 
         if (bytes & 1) {
-            __m128i b =
-                _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f, 0x24, 0xb2, 0xa8, *ptr8, 0x31);
+            __m128i b = _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f, 0x24,
+                                     0xb2, 0xa8, *ptr8, 0x31);
             block[2] = _mm_aesenc_si128(block[2], b);
         }
 
         // indirectly mix hashing lanes
-        const __m128i mix = _mm_xor_si128(_mm_xor_si128(block[0], block[1]), _mm_xor_si128(block[2], block[3]));
+        const __m128i mix =
+            _mm_xor_si128(_mm_xor_si128(block[0], block[1]), _mm_xor_si128(block[2], block[3]));
         block[0] = _mm_aesenc_si128(block[0], mix);
         block[1] = _mm_aesenc_si128(block[1], mix);
         block[2] = _mm_aesenc_si128(block[2], mix);
         block[3] = _mm_aesenc_si128(block[3], mix);
 
         // reduction from 512-bit block size to 128-bit hash
-        __m128i hash = _mm_aesenc_si128(_mm_aesenc_si128(block[0], block[1]), _mm_aesenc_si128(block[2], block[3]));
+        __m128i hash =
+            _mm_aesenc_si128(_mm_aesenc_si128(block[0], block[1]), _mm_aesenc_si128(block[2], block[3]));
 
         // this algorithm construction requires no less than one round to finalize
         return _mm_aesenc_si128(hash, _mm_set_epi64x(0x8e51ef21fabb4522, 0xe43d7a0656954b6c));
@@ -163,7 +172,8 @@ class AquaHash {
     // NON-INCREMENTAL HYBRID ALGORITHM
 
     static __m128i Hash(const uint8_t *key, const size_t bytes, __m128i initialize = _mm_setzero_si128()) {
-        return bytes < 64 ? SmallKeyAlgorithm(key, bytes, initialize) : LargeKeyAlgorithm(key, bytes, initialize);
+        return bytes < THRESHOLD ? SmallKeyAlgorithm(key, bytes, initialize)
+                                 : LargeKeyAlgorithm(key, bytes, initialize);
     }
 
     // INCREMENTAL HYBRID ALGORITHM
@@ -266,7 +276,8 @@ class AquaHash {
             }
 
             if (input_bytes & 4) {
-                __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8), 0xd210d232);
+                __m128i b = _mm_set_epi32(0xb1293b33, 0x05418592, *reinterpret_cast<const uint32_t *>(ptr8),
+                                          0xd210d232);
                 block[0] = _mm_aesenc_si128(block[0], b);
                 ptr8 += 4;
             }
@@ -279,20 +290,22 @@ class AquaHash {
             }
 
             if (input_bytes & 1) {
-                __m128i b = _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f, 0x24, 0xb2, 0xa8,
-                                         *ptr8, 0x31);
+                __m128i b = _mm_set_epi8(0xcc, 0x96, 0xed, 0x16, 0x74, 0xea, 0xaa, 0x03, 0x1e, 0x86, 0x3f,
+                                         0x24, 0xb2, 0xa8, *ptr8, 0x31);
                 block[2] = _mm_aesenc_si128(block[2], b);
             }
 
             // indirectly mix hashing lanes
-            const __m128i mix = _mm_xor_si128(_mm_xor_si128(block[0], block[1]), _mm_xor_si128(block[2], block[3]));
+            const __m128i mix =
+                _mm_xor_si128(_mm_xor_si128(block[0], block[1]), _mm_xor_si128(block[2], block[3]));
             block[0] = _mm_aesenc_si128(block[0], mix);
             block[1] = _mm_aesenc_si128(block[1], mix);
             block[2] = _mm_aesenc_si128(block[2], mix);
             block[3] = _mm_aesenc_si128(block[3], mix);
 
             // reduction from 512-bit block size to 128-bit hash
-            __m128i hash = _mm_aesenc_si128(_mm_aesenc_si128(block[0], block[1]), _mm_aesenc_si128(block[2], block[3]));
+            __m128i hash = _mm_aesenc_si128(_mm_aesenc_si128(block[0], block[1]),
+                                            _mm_aesenc_si128(block[2], block[3]));
 
             // this algorithm construction requires no less than 1 round to finalize
             input_bytes = finalized;
@@ -339,29 +352,29 @@ class AquaHash {
 
         // small key algorithm test with first initializer
         {
-            auto hash =
-                SmallKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small), initialize_0);
+            auto hash = SmallKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_small),
+                                          strlen(test_key_small), initialize_0);
             if (memcmp(&hash, &valid_31_0, sizeof(hash))) return __LINE__;
         }
 
         // small key algorithm test with second initializer
         {
-            auto hash =
-                SmallKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small), initialize_1);
+            auto hash = SmallKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_small),
+                                          strlen(test_key_small), initialize_1);
             if (memcmp(&hash, &valid_31_1, sizeof(hash))) return __LINE__;
         }
 
         // large key algorithm test with first initializer
         {
-            auto hash =
-                LargeKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large), initialize_0);
+            auto hash = LargeKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_large),
+                                          strlen(test_key_large), initialize_0);
             if (memcmp(&hash, &valid_127_0, sizeof(hash))) return __LINE__;
         }
 
         // large key algorithm test with second initializer
         {
-            auto hash =
-                LargeKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large), initialize_1);
+            auto hash = LargeKeyAlgorithm(reinterpret_cast<const uint8_t *>(test_key_large),
+                                          strlen(test_key_large), initialize_1);
             if (memcmp(&hash, &valid_127_1, sizeof(hash))) return __LINE__;
         }
 
@@ -369,16 +382,20 @@ class AquaHash {
         {
             __m128i hash;
 
-            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small), initialize_0);
+            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small),
+                        initialize_0);
             if (memcmp(&hash, &valid_31_0, sizeof(hash))) return __LINE__;
 
-            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small), initialize_1);
+            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_small), strlen(test_key_small),
+                        initialize_1);
             if (memcmp(&hash, &valid_31_1, sizeof(hash))) return __LINE__;
 
-            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large), initialize_0);
+            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large),
+                        initialize_0);
             if (memcmp(&hash, &valid_127_0, sizeof(hash))) return __LINE__;
 
-            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large), initialize_1);
+            hash = Hash(reinterpret_cast<const uint8_t *>(test_key_large), strlen(test_key_large),
+                        initialize_1);
             if (memcmp(&hash, &valid_127_1, sizeof(hash))) return __LINE__;
         }
 
@@ -408,7 +425,9 @@ class AquaHash {
                     size_t mod = strlen(test_key_large) % span;
                     for (size_t j = 0; j < div; j++)
                         aqua.Update(reinterpret_cast<const uint8_t *>(&test_key_large[j * span]), span);
-                    aqua.Update(reinterpret_cast<const uint8_t *>(&test_key_large[strlen(test_key_large) - mod]), mod);
+                    aqua.Update(
+                        reinterpret_cast<const uint8_t *>(&test_key_large[strlen(test_key_large) - mod]),
+                        mod);
                     auto hash = aqua.Finalize();
                     if (memcmp(&hash, &valid_127_0, sizeof(hash))) return __LINE__;
                 }

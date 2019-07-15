@@ -36,7 +36,7 @@ def plot_results(prefix, N, YLIM):
     # Plot results
     x = np.arange(1, N + 1, 1)
     lines = plt.plot(
-        x, std_hash_results, "r-+", x, boost_hash_results, "b-o", x, xxhash_results, 'g-', x, farmhash_results, 'y-^', x, aquahash_results, 'g-v')
+        x, std_hash_results, "r-", x, boost_hash_results, "b-", x, xxhash_results, 'k-', x, farmhash_results, 'y-', x, aquahash_results, 'g-')
     plt.xlabel("String length (bytes)")
     plt.ylabel("Run time (ns)")
     plt.ylim(0, YLIM)
