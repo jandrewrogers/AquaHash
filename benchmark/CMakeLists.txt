@@ -41,6 +41,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Include other headers such as fmt library.
 include_directories ("${EXTERNAL_DIR}/include")
+include_directories ("${EXTERNAL_DIR}/src/farmhash/src")
+include_directories ("${EXTERNAL_DIR}/src/xxhash/")
 
 # Include clhash headers
 include_directories ("${ROOT_DIR}/src")
@@ -48,9 +50,8 @@ include_directories ("${ROOT_DIR}/src")
 # Used libraries
 SET(LIB_BENCHMARK "${EXTERNAL_DIR}/lib/libbenchmark.a")
 SET(LIB_XXHASH "${EXTERNAL_DIR}/lib/libxxhash.a")
-SET(LIB_FARMHASH "${EXTERNAL_DIR}/lib/libfarmhash.a")
 set(COMMAND_SRC_FILES random_string)
 foreach (src_file ${COMMAND_SRC_FILES})
   ADD_EXECUTABLE(${src_file} ${src_file}.cpp)
-  TARGET_LINK_LIBRARIES(${src_file} -lpthread -lm ${LIB_BENCHMARK} ${LIB_XXHASH} ${LIB_FARMHASH})
+  TARGET_LINK_LIBRARIES(${src_file} -lpthread -lm ${LIB_BENCHMARK} ${LIB_XXHASH})
 endforeach (src_file)
