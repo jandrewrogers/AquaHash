@@ -46,7 +46,7 @@ def plot_results(prefix, N, YLIM):
     plt.xlim(1, N)
     plt.grid()
     plt.legend(lines, ('std::hash', 'boost::hash', 'xxHash', 'farmhash', 'clhash', 'aquahash'))
-    plt.title("Hash functions performance analysis using random strings");
+    plt.title("Hash function performance analysis using random strings");
     plt.show()
 
 # Parse input arguments

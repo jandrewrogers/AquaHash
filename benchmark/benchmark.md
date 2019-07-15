@@ -65,20 +65,29 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 **Short string benchmarks**
 
+![Small string performance](small_string_linux.png) 
 
-**Long string benchmarks**
+**Large string benchmarks**
+
+![Large string performance](small_string_linux.png) 
 
 ## MacOS ##
 
 **Short string benchmarks**
 
+![Small string performance](small_string_macos.png) 
 
-**Long string benchmarks**
+**Large string benchmarks**
 
+![Large string performance](large_string_macos.png) 
 
 ## Window Linux Subsystem ##
 
 **Short string benchmarks**
 
-**Long string benchmarks**
+![Small string performance](small_string_subsystem.png) 
+
+**Large string benchmarks**
+
+![Large string performance](large_string_subsystem.png) 
 
