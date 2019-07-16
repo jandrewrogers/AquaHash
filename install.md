@@ -1,4 +1,4 @@
-* Steps
+# Steps #
 
 **Download the source code**
 
@@ -61,4 +61,3 @@ aquahash_string            7 ns          7 ns  100521275
 ``` shell
 ./run_benchmark.sh 128
 ```
-
