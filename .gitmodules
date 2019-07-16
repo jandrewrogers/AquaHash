@@ -10,3 +10,11 @@
 	path = 3p/src/fmt
 	url = https://github.com/fmtlib/fmt.git
 	branch = master
+[submodule "3p/src/farmhash"]
+	path = 3p/src/farmhash
+	url = https://github.com/google/farmhash.git
+	branch = master
+[submodule "3p/src/xxHash"]
+	path = 3p/src/xxHash
+	url = https://github.com/Cyan4973/xxHash.git
+	branch = master
