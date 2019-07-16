@@ -9,7 +9,7 @@ I have a hard time compile the code using GNU gcc, try clang if you do not want 
 **Download the source code**
 
 ``` shell
-git clone -r https://github.com/hungptit/AquaHash.git
+git clone https://github.com/hungptit/AquaHash.git
 ```
 
 **Compile all required libraries and binaries**
