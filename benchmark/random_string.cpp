@@ -14,33 +14,16 @@
 #include "farmhash.h"
 #include "farmhash.cc"
 #include "aquahash.h"
+#include "interface.h"
+#include "utils.h"
 #include "clhash.h"
-
-class CharGenerator {
-  public:
-    std::string operator()(const size_t len) {
-        std::string str(len, 0);
-        for (size_t idx = 0; idx < len; ++idx) { str[idx] = valid_characters[rgn() % N]; }
-        std::cout << "Generated random string: " << str << "\n";
-        return str;
-    }
-
-  private:
-    std::mt19937 rgn;
-    static constexpr int N = 62;
-    const std::array<char, N> valid_characters = {
-        {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-         'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
-         'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-         'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
-};
 
 std::string generate_random_string() {
     const char *var = std::getenv("LEN");
     if (var == nullptr) { throw std::runtime_error("LEN environment variable is required!"); }
     int len = std::stoi(var);
     std::cout << "String length: " << len << "\n";
-    CharGenerator gen;
+    aquahash::CharGenerator gen;
     return gen(len);
 }
 
@@ -91,10 +74,17 @@ BENCHMARK(clhash_string);
 const __m128i seed = _mm_setzero_si128();
 void aquahash_string(benchmark::State &state) {
     for (auto _ : state) {
-        benchmark::DoNotOptimize(AquaHash::Hash((const uint8_t*)test_string.data(), test_string.size()));
+        benchmark::DoNotOptimize(AquaHash::Hash((const uint8_t*)test_string.data(), test_string.size(), seed));
     }
 }
 BENCHMARK(aquahash_string);
 
+void aquahash_convert_string(benchmark::State &state) {
+    aquahash::hash<std::string> h;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(h(test_string));
+    }
+}
+BENCHMARK(aquahash_convert_string);
 
 BENCHMARK_MAIN();

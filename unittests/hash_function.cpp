@@ -69,24 +69,6 @@ TEST_CASE("Array") {
 }
 
 TEST_CASE("Basic tests") {
-    std::vector<int> x{1, 2, 3, 4, 5, 6, 7, 8};
-    std::vector<int> y{1, 2, 3, 5, 5, 6, 7, 8};
-
-    SUBCASE("Basic tests") {
-        aquahash::Hash h;
-
-        // Compute the hash code for the whole vector
-        std::size_t expected_result = 172989338662585445l;
-        CHECK(h(x) != h(y));
-        CHECK(h(x) == expected_result);
-        CHECK(h(x.data(), x.size()) == expected_result);
-        CHECK(h(&x[0], x.size()) == expected_result);
-
-        // Compute the hash code for part of the vector
-        std::size_t new_hash_code = 4302930102154141567l;
-        CHECK(h(x.data(), x.size() - 1) == new_hash_code);
-    }
-
     static constexpr char test_key_small[] = "0123456789012345678901234567890";
     static constexpr char test_key_large[] = "01234567890123456789012345678901"
                                              "23456789012345678901234567890123"
@@ -189,5 +171,22 @@ TEST_CASE("Basic tests") {
                 CHECK(memcmp(&hash, &valid_127_0, sizeof(hash)) == 0);
             }
         }
+    }
+}
+
+TEST_CASE("Hash function for STL") {
+    std::vector<int> x{1, 2, 3, 4, 5, 6, 7, 8};
+    std::vector<int> y{1, 2, 3, 5, 5, 6, 7, 8};
+
+    SUBCASE("Basic tests") {
+        aquahash::hash<std::vector<int>> h;
+        aquahash::hash<std::vector<int>> h2;
+
+        // Compute the hash code for the whole vector
+        std::size_t expected_result = 172989338662585445l;
+        CHECK(h(x) != h(y));
+        CHECK(h(x) != h2(y));
+        CHECK(h(x) == expected_result);
+        CHECK(h2(x) == expected_result);
     }
 }

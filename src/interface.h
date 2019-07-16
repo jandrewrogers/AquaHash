@@ -16,33 +16,33 @@
 
 #include "aquahash.h"
 #include "utils.h"
+#include <string>
+#include <vector>
 
 namespace aquahash {
-    struct Hash {
+    template <typename T> T convert(const __m128i h) noexcept {
+        T result;
+        memcpy(&result, &h, sizeof(T));
+        return result;
+    }
+
+    template <typename T> struct hash;
+
+    template <> struct hash<std::string> {
+        using result_type = std::size_t;
+        const __m128i kSeed = _mm_setzero_si128();
+        result_type operator()(const std::string &key) const noexcept {
+            return convert<std::size_t>(AquaHash::Hash((uint8_t *)(key.data()), key.size(), kSeed));
+        }
+    };
+
+    template <> struct hash<std::vector<int>> {
         using result_type = std::size_t;
         const __m128i kSeed = _mm_setzero_si128();
 
-        template <typename T> T convert(const __m128i h) const noexcept {
-            T result;
-            memcpy(&result, &h, sizeof(T));
-            return result;
-        }
-
-        template <typename T> result_type operator()(const T value) const noexcept {
-            return convert<std::size_t>(AquaHash::Hash((uint8_t *)(&value), sizeof(T), kSeed));
-        }
-
-        template <typename T> result_type operator()(const T *ptr, const size_t len) const noexcept {
-            return convert<std::size_t>(AquaHash::Hash((uint8_t *)(ptr), len * sizeof(T), kSeed));
-        }
-
-        template <typename T> result_type operator()(const std::string &key) const noexcept {
-            return convert<std::size_t>(AquaHash::Hash((uint8_t *)(key.data()), key.size(), kSeed));
-        }
-
-        template <typename T> result_type operator()(const std::vector<T> &data) const noexcept {
+        result_type operator()(const std::vector<int> &key) const noexcept {
             return convert<std::size_t>(
-                AquaHash::Hash((uint8_t *)(data.data()), data.size() * sizeof(T), kSeed));
+                AquaHash::Hash((uint8_t *)(key.data()), key.size() * sizeof(int), kSeed));
         }
     };
 } // namespace aquahash
