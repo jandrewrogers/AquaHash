@@ -111,11 +111,11 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 ## General observations ##
 
 * The performance of all hash functions is consistent in all platforms.
-* AquaHash is the fastest hash function in all of our benchmarks. We should use this hash function for performance critical applications if possible.
+* AquaHash is the fastest hash function in all of our benchmarks.
 * clhash starts to shine when the string size if greater than or equal to 96 bytes.
 * farmhash also has a very good performance for both small and large string.
 * std::hash has a reasonable performance.
-* boost::hash function is really slow and we should not use it in performance critical applications.
+* boost::hash function is very slow it is 50x slower than AquaHash and 20x slower than std::hash.
 
 ## Short string benchmark ##
 
