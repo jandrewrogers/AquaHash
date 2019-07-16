@@ -12,13 +12,12 @@ def plot_results(prefix, N, YLIM):
     farmhash_results = np.zeros(N, dtype=float)
     clhash_results = np.zeros(N, dtype=float)
     aquahash_results = np.zeros(N, dtype=float)
-    for idx in range(0, N):
-        data_file = prefix + str(idx + 1) + ".json"
-        # print("data_file: ", data_file)
+    x = np.zeros(N, dtype=float)
+    for idx in range(1, N, 1):
+        data_file = prefix + str(idx) + ".json"
+        x[idx] = idx;
         data = json.load(open(data_file))
         benchmark_results = data["benchmarks"]
-        # print(benchmark_results)
-
         for info in benchmark_results:
             benchmark_name = info["name"]
             if (benchmark_name == "std_hash_string"):
@@ -37,9 +36,8 @@ def plot_results(prefix, N, YLIM):
                 print(f"Unrecognized benchmark_name: '{benchmark_name}'")
 
     # Plot results
-    x = np.arange(1, N + 1, 1)
     lines = plt.plot(
-        x, std_hash_results, "r-", x, boost_hash_results, "b-", x, xxhash_results, 'k-', x, farmhash_results, 'y-', clhash_results, 'k-.', x, aquahash_results, 'g-')
+        x, std_hash_results, "r^-", x, boost_hash_results, "bv-", x, xxhash_results, 'kp-', x, farmhash_results, 'y8-', clhash_results, 'cs-', x, aquahash_results, 'go-')
     plt.xlabel("String length (bytes)")
     plt.ylabel("Run time (ns)")
     plt.ylim(0, YLIM)

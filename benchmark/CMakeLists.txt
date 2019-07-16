@@ -41,6 +41,8 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 include_directories ("${EXTERNAL_DIR}/include")
 include_directories ("${EXTERNAL_DIR}/src/farmhash/src")
 include_directories ("${EXTERNAL_DIR}/src/xxHash/")
+include_directories ("/usr/local/Cellar/boost/1.70.0/include/")
+
 
 # Include clhash headers
 include_directories ("${ROOT_DIR}/src")

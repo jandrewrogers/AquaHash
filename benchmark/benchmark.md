@@ -8,13 +8,22 @@ I have a hard time compile the code using GNU gcc, try clang if you do not want 
 
 **Download the source code**
 
-**Compile all required libraries**
+``` shell
+git clone -r https://github.com/hungptit/AquaHash.git
+```
 
-**Compile all benchmark binary**
+**Compile all required libraries and binaries**
 
-**Collect the benchmark results**
+``` shell
+cd AquaHash
+./build.sh
+```
 
 **Plot the results**
+
+``` shell
+./plot_benchmark_results.py data/Darwin/string/data_ 4000 500
+```
 
 # Experiment setup #
 
@@ -69,7 +78,7 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 **Large string benchmarks**
 
-![Large string performance](small_string_linux.png) 
+![Large string performance](large_string_linux.png) 
 
 ## MacOS ##
 
