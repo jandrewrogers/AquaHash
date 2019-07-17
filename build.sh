@@ -23,6 +23,12 @@ make -j5
 make test
 popd
 
+# Build aquahash command
+pushd $root_dir/commands
+cmake ./ > /dev/null
+make -j5
+popd
+
 # Build all benchmarks
 pushd $root_dir/benchmark
 cmake ./ > /dev/null

@@ -12,3 +12,10 @@ printf "Build benchmark\n"
 
 printf "Setup Clara\n"
 cp src/Clara/include/*.hpp include/
+
+printf "Build Celero\n"
+./build_using_cmake.sh Celero "-DCELERO_COMPILE_DYNAMIC_LIBRARIES:BOOL=OFF -DCELERO_ENABLE_EXPERIMENTS:BOOL=OFF" > /dev/null
+
+printf "Build xxHash\n"
+./build_using_make.sh xxHash > /dev/null
+

@@ -100,6 +100,8 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 <!-- ![Large string performance](large_string_subsystem.png)  -->
 
+## aquahash vs md5sum vs xxhash vs sha*sum ##
+
 # Analysis #
 
 ## Usability ##
@@ -130,3 +132,4 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 * clhash is the second best hash function and its hashing speed is about 9 bytes/cycle. Note that the performance of clhash is at peek if the buffer size if divisible by 8.
 * farmhash also has a very good performance. Our performance benchmark shows that farmhash can process 8-9 bytes/cycle.
 * boost::hash is again the slowest hash function i.e 50x slower than AquaHash.
+

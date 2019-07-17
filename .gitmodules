@@ -22,3 +22,7 @@
 	path = 3p/src/Clara
 	url = https://github.com/catchorg/Clara.git
 	branch = master
+[submodule "3p/src/Celero"]
+	path = 3p/src/Celero
+	url = https://github.com/DigitalInBlue/Celero.git
+	branch = master
