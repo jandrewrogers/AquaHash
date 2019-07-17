@@ -8,11 +8,10 @@
 
 namespace aquahash {
     // A reader class which reads data in blocks.
-    constexpr size_t READ_TRUNK_SIZE = 1 << 17; // This is an optimum trunk size.
-    template <typename Policy, size_t BUFFER_SIZE = READ_TRUNK_SIZE> struct FileReader : public Policy {
+    template <typename Policy> struct FileReader : public Policy {
         template <typename... Args> FileReader(Args... args) : Policy(std::forward<Args>(args)...) {}
 
-        char read_buffer[BUFFER_SIZE];
+        char read_buffer[Policy::BUFFER_SIZE];
 
         void operator()(const char *datafile) {
             // Read data by trunks
@@ -29,9 +28,11 @@ namespace aquahash {
             fstat(fd, &buf);
 
             // Read data into a read buffer
-            const size_t block_count = (buf.st_size / BUFFER_SIZE) + (buf.st_size % BUFFER_SIZE != 0);
+            const size_t block_count =
+                (buf.st_size / Policy::BUFFER_SIZE) + (buf.st_size % Policy::BUFFER_SIZE != 0);
+
             for (size_t blk = 0; blk < block_count; ++blk) {
-                long nbytes = ::read(fd, read_buffer, BUFFER_SIZE);
+                long nbytes = ::read(fd, read_buffer, Policy::BUFFER_SIZE);
                 if (nbytes < 0) {
                     fprintf(stderr, "Cannot read from file '%s'. Error: %s\n", datafile, strerror(errno));
                     break;
