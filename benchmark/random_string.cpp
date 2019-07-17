@@ -1,4 +1,3 @@
-
 #include "boost/container_hash/hash.hpp"
 #include <algorithm>
 #include <benchmark/benchmark.h>

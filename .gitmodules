@@ -18,3 +18,11 @@
 	path = 3p/src/xxHash
 	url = https://github.com/Cyan4973/xxHash.git
 	branch = master
+[submodule "3p/src/Clara"]
+	path = 3p/src/Clara
+	url = https://github.com/catchorg/Clara.git
+	branch = master
+[submodule "3p/src/Celero"]
+	path = 3p/src/Celero
+	url = https://github.com/DigitalInBlue/Celero.git
+	branch = master

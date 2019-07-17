@@ -64,7 +64,7 @@ include_directories ("${EXTERNAL_DIR}/include")
 include_directories ("${SRC_DIR}")
 
 # Unittests
-set(SRC_FILES hash_function hash_table)
+set(SRC_FILES hash_function hash_table file)
 foreach (src_file ${SRC_FILES})
   ADD_EXECUTABLE(${src_file} ${src_file}.cpp)
   TARGET_LINK_LIBRARIES(${src_file})
