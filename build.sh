@@ -18,13 +18,13 @@ popd
 
 # Run all unittests
 pushd $root_dir/unittests/
-cmake ./
+cmake ./ > /dev/null
 make -j5
 make test
 popd
 
 # Build all benchmarks
 pushd $root_dir/benchmark
-cmake ./
+cmake ./ > /dev/null
 make -j5
 popd
