@@ -11,9 +11,12 @@
 #include <x86intrin.h>
 
 namespace {
-    void disp_version() { fmt::print("{}\n", "fast-locate version 1.0"); }
-    void copyright() { fmt::print("\n{}\n", "Report bugs or enhancement requests to hungptit@gmail.com"); }
-    void usage() { printf("\nExamples:\n"); }
+    void disp_version() { printf("%s\n", "aquahash version 1.0"); }
+    void copyright() { printf("\n%s\n", "Report bugs or enhancement requests to hungptit@gmail.com"); }
+    void usage() {
+        printf("\nExamples:\n");
+        printf("\nExamples:\n");
+    }
 
     enum PARAMS : uint32_t {
         VERBOSE = 1,
@@ -38,7 +41,6 @@ namespace {
 
     InputParams parse_input_arguments(int argc, char *argv[]) {
         InputParams params;
-
         bool verbose = false;
         bool version = false;
         bool help = false;
@@ -47,7 +49,7 @@ namespace {
 
         auto cli = clara::Help(help) |
                    clara::Opt(verbose)["-v"]["--verbose"]("Display verbose information") |
-                   clara::Opt(version)["--version"]("Display the version of fast-locate.") |
+                   clara::Opt(version)["--version"]("Display the version of aquahash command.") |
                    clara::Arg(params.files, "files")("Input files");
 
         auto result = cli.parse(clara::Args(argc, argv));

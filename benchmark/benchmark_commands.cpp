@@ -57,19 +57,42 @@ BENCHMARK(mid_file, xxhash, number_of_samples, number_of_operations) {
 
 BENCHMARK(mid_file, sha1sum, number_of_samples, number_of_operations) { ::run("sha1sum", mid_file); }
 
-BENCHMARK(mid_file, sha224sum, number_of_samples, number_of_operations) {
-    ::run("sha224sum", mid_file);
+BENCHMARK(mid_file, sha224sum, number_of_samples, number_of_operations) { ::run("sha224sum", mid_file); }
+
+BENCHMARK(mid_file, sha256sum, number_of_samples, number_of_operations) { ::run("sha256sum", mid_file); }
+
+BENCHMARK(mid_file, sha384sum, number_of_samples, number_of_operations) { ::run("sha384sum", mid_file); }
+
+BENCHMARK(mid_file, sha512sum, number_of_samples, number_of_operations) { ::run("sha512sum", mid_file); }
+
+// Large file
+const std::string large_file = ".database";
+
+BASELINE(large_file, md5sum, number_of_samples, number_of_operations) { ::run("md5sum", large_file); }
+
+BENCHMARK(large_file, aquahash, number_of_samples, number_of_operations) {
+    ::run("../commands/aquahash", large_file);
 }
 
-BENCHMARK(mid_file, sha256sum, number_of_samples, number_of_operations) {
-    ::run("sha256sum", mid_file);
+BENCHMARK(large_file, xxhash, number_of_samples, number_of_operations) {
+    ::run("../3p/bin/xxhsum", large_file);
 }
 
-BENCHMARK(mid_file, sha384sum, number_of_samples, number_of_operations) {
-    ::run("sha384sum", mid_file);
+BENCHMARK(large_file, sha1sum, number_of_samples, number_of_operations) { ::run("sha1sum", large_file); }
+
+BENCHMARK(large_file, sha224sum, number_of_samples, number_of_operations) {
+    ::run("sha224sum", large_file);
 }
 
-BENCHMARK(mid_file, sha512sum, number_of_samples, number_of_operations) {
-    ::run("sha512sum", mid_file);
+BENCHMARK(large_file, sha256sum, number_of_samples, number_of_operations) {
+    ::run("sha256sum", large_file);
+}
+
+BENCHMARK(large_file, sha384sum, number_of_samples, number_of_operations) {
+    ::run("sha384sum", large_file);
+}
+
+BENCHMARK(large_file, sha512sum, number_of_samples, number_of_operations) {
+    ::run("sha512sum", large_file);
 }
 
