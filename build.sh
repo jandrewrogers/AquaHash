@@ -1,6 +1,7 @@
 #!/bin/bash
 root_dir="$PWD"
 echo "root_dir = $root_dir"
+set -e
 
 # Update all 3p modules
 git pull
@@ -11,7 +12,7 @@ git submodule update
 pushd $root_dir/3p
 sh build_all.sh
 if [ ! -d "lib" ]; then
-	mv lib64 lib
+    mv lib64 lib
 fi
 popd
 

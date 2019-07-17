@@ -18,6 +18,7 @@
 #include <cassert>
 #include <cstring>
 #include <limits>
+#include <cstdint>
 #include <smmintrin.h>
 #include <wmmintrin.h>
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail                               # Use Bash strict mode
+set -e                          # Use Bash strict mode
 
 printf "Build doctest\n";
 ./build_using_cmake.sh doctest "-DCMAKE_CXX_COMPILER=clang++" > /dev/null
