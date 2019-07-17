@@ -26,10 +26,10 @@ include(CXXFeatureCheck)
 SET(CMAKE_CXX_COMPILER clang++)
 # add_cxx_compiler_flag(-stdlib=libc++)
 
-set(CMAKE_BUILD_TYPE Debug)
+# set(CMAKE_BUILD_TYPE Debug)
 
-# set (CMAKE_BUILD_TYPE Release)
-# add_cxx_compiler_flag(-O3)
+set (CMAKE_BUILD_TYPE Release)
+add_cxx_compiler_flag(-O3)
 add_cxx_compiler_flag(-march=native)
 
 # Enable other flags
@@ -64,7 +64,7 @@ include_directories ("${EXTERNAL_DIR}/include")
 include_directories ("${SRC_DIR}")
 
 # Unittests
-set(SRC_FILES hash_function hash_table file)
+set(SRC_FILES aquahash)
 foreach (src_file ${SRC_FILES})
   ADD_EXECUTABLE(${src_file} ${src_file}.cpp)
   TARGET_LINK_LIBRARIES(${src_file})

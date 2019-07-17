@@ -16,11 +16,11 @@
 #pragma once
 
 #include <cassert>
-#include <cstring>
-#include <limits>
 #include <cstdint>
-#include <smmintrin.h>
-#include <wmmintrin.h>
+#include <cstring>
+#include <immintrin.h>
+#include <limits>
+#include <stdint.h>
 
 class AquaHash {
     static constexpr unsigned int THRESHOLD = 64;

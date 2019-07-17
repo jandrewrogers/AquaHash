@@ -21,9 +21,9 @@
 
 namespace aquahash {
     template <typename T> T convert(const __m128i h) noexcept {
-        T result;
-        memcpy(&result, &h, sizeof(T));
-        return result;
+        alignas(16) uint64_t v[2];
+        _mm_store_si128((__m128i *)v, h);
+        return v[0];            // Take the first part of the hash code.
     }
 
     template <typename T> struct hash;
