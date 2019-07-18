@@ -52,7 +52,7 @@ namespace aquahash {
         __m128i seed;
         __m128i hashcode;
         AquaHash aqua;
-        HashCodeWriter writer;
+        AquaHashWriter writer;
         int flags;
     };
 } // namespace aquahash

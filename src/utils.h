@@ -42,17 +42,17 @@ namespace aquahash {
              'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
     };
 
-    class HashCodeWriter {
+    class AquaHashWriter {
       private:
-        char buffer[32];
-
+        static constexpr int BUFFER_SIZE = 16;
+        char buffer[BUFFER_SIZE * 2];
       public:
         const char *operator()(__m128i value) {
-            alignas(16) uint8_t v[16];
+            alignas(16) uint8_t v[BUFFER_SIZE];
             _mm_store_si128((__m128i *)v, value);
-            sprintf(buffer, "%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x%02x", v[0], v[1],
-                    v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12], v[13], v[14],
-                    v[15]);
+            for (int idx = 0; idx < BUFFER_SIZE; ++idx) {
+                sprintf(buffer + idx * 2, "%02x", v[idx]);
+            }
             return buffer;
         }
     };
