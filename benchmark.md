@@ -78,7 +78,7 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 **Analysis**
 * AquaHash is the fastest hash function for small keys with the average speed about 4 bytes/cycle.
-* farmhash has a very good performance and its performance is jumped for when the string size is divisible by 32.
+* farmhash has a very good performance and its performance is jumped when the string size is divisible by 32.
 * boost::hash is the worse hash function and it is significantly slower than other hash functions.
 
 ### Large string benchmarks ###
@@ -99,8 +99,8 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 **Analysis**
 * AquaHash is still the fastest hash function. It can processes 10bytes/cycle for strings that a longer than 64 bytes.
-* clhash is the second best hash function for string length greater than 96 bytes. Note that clhash is slow for small strings because its is optimized for large input strings.
-* farmhash is the second best hash function for strings that are less than 96 bytes.
+* clhash is the second best hash function for input strings that are greater than or equal to **96 bytes** or **string length is divisible by 8**. Note that clhash is slow for small strings because [the input strings must be significantly larger than a vector register (128 bits)](https://github.com/lemire/clhash).
+* farmhash is the second best hash function for strings that are less than **96 bytes**.
 
 ### Large string benchmarks ###
 
@@ -110,16 +110,6 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 * AquaHash is the fastest hash function in this benchmark and it can processes about 15 bytes/cycle.
 * clhash is still the second best hash function for large strings, however, it is still 60% slower than AquaHash from our benchmark.
 * boost::hash is still the worse hash function in this benchmark. It is about 50x slower than AquaHash.
-
-<!-- ## Window Linux Subsystem ## -->
-
-<!-- **Short string benchmarks** -->
-
-<!-- ![Small string performance](small_string_subsystem.png)  -->
-
-<!-- **Large string benchmarks** -->
-
-<!-- ![Large string performance](large_string_subsystem.png)  -->
 
 ## aquahash command benchmark ##
 
@@ -184,9 +174,9 @@ Completed in 00:03:03.410126
 
 ### Analysis ###
 
-* aquahash is the fastest command in all of our benchmark.
+* aquahash is the fastest command in all of our benchmarks.
 * xxhsum is the second best command and it is about 20% slower than aquahash.
-* The performance difference between the two best commands and other commands is 10x and it is the reason why xxHash is very popular for calculating the checksum.
+* The performance difference between the two best commands and other commands is 10x and it is the reason why xxHash is very popular for calculating the checksum in performance critical applications.
 
 # Other observations #
 
