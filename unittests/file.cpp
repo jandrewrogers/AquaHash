@@ -12,7 +12,7 @@
 #include "stream.h"
 
 TEST_CASE("Basic tests") {
-    using Hasher = aquahash::FileReader<aquahash::ComputeHashPolicy>;
-    Hasher hasher;
+    using Hasher = aquahash::FileReader<aquahash::AquaHashPolicy>;
+    Hasher hasher(0);
     hasher("file.cpp");
 }
