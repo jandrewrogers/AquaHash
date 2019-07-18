@@ -49,6 +49,11 @@ if (HAVE_WTHREAD_SAFETY)
   cxx_feature_check(THREAD_SAFETY_ATTRIBUTES)
 endif()
 
+# These flags are used to optimize the binary size.
+add_cxx_compiler_flag(-fno-exceptions)
+add_cxx_compiler_flag(--fno-rtti)
+
+# Customized flags
 add_cxx_compiler_flag(-DFMT_HEADER_ONLY)
 add_cxx_compiler_flag(-DCEREAL_RAPIDJSON_HAS_CXX11_RVALUE_REFS)
 

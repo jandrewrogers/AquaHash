@@ -13,11 +13,11 @@
 // limitations under the License.
 
 #include "aquahash.h"
+#include "aquahash_policy.h"
 #include "clara.hpp"
 #include "interface.h"
 #include "params.h"
 #include "reader.h"
-#include "aquahash_policy.h"
 #include "utils.h"
 #include <string>
 
@@ -41,6 +41,7 @@ namespace {
         auto cli = clara::Help(help) |
                    clara::Opt(verbose)["-v"]["--verbose"]("Display verbose information") |
                    clara::Opt(version)["--version"]("Display the version of aquahash command.") |
+                   clara::Opt(color)["--color"]("Use color text.") |
                    clara::Opt(use_xxhash)["--use-xxhash"]("Compute checksum using XXHASH64 algorithm.") |
                    clara::Opt(big_endian)["--big-endian"]("Display a hash string using big endian order.") |
                    clara::Arg(files, "files")("Input files");
@@ -67,6 +68,7 @@ namespace {
         }
 
         flags = (verbose ? aquahash::Params::VERBOSE : aquahash::Params::NONE) |
+                (use_xxhash ? aquahash::Params::XXHASH : aquahash::Params::NONE) |
                 (color ? aquahash::Params::COLOR : aquahash::Params::NONE);
 
         // Display input arguments in JSON format if verbose flag is on
