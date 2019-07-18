@@ -17,7 +17,7 @@
 #include "interface.h"
 #include "params.h"
 #include "reader.h"
-#include "stream.h"
+#include "aquahash_policy.h"
 #include "utils.h"
 #include <string>
 

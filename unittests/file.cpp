@@ -9,7 +9,7 @@
 #include <vector>
 #include <x86intrin.h>
 #include "reader.h"
-#include "stream.h"
+#include "aquahash_policy.h"
 
 TEST_CASE("Basic tests") {
     using Hasher = aquahash::FileReader<aquahash::AquaHashPolicy>;
