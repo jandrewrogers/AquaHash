@@ -72,23 +72,44 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 ## Linux ##
 
-**Short string benchmarks**
+### Short string benchmarks ###
 
 ![Small string performance](benchmark/small_string_linux.png) 
 
-**Large string benchmarks**
+**Analysis**
+* AquaHash is the fastest hash function for small keys with the average speed about 4 bytes/cycle. 
+* farmhash has a very good performance and its performance is jumped for when the string size is divisible by 32.
+* boost::hash is the worse hash function and it is significantly slower than other hash functions.
+
+### Large string benchmarks ###
 
 ![Large string performance](benchmark/large_string_linux.png) 
 
+**Analysis**
+* The performance of most hash functions is linear to the size of test strings.
+* AquaHash is still the fastest hash function. It can process 10 bytes/cycle.
+* clhash is the second best hash function.
+* boost::hash and std::hash are slowest hash functions from our benchmark.
+
 ## MacOS ##
 
-**Short string benchmarks**
+### Short string benchmarks ###
 
 ![Small string performance](benchmark/small_string_macos.png) 
 
-**Large string benchmarks**
+**Analysis**
+* AquaHash is still the fastest hash function. It can process 10bytes/cycle for strings that a longer than 64 bytes. 
+* clhash is the second best hash function for string length greater than 96 bytes. Note that clhash is slow for small strings because its is optimized for large input strings. 
+* farmhash is the second best hash function for strings that are less than 96 bytes.
+
+### Large string benchmarks ###
 
 ![Large string performance](benchmark/large_string_macos.png) 
+
+**Analysis**
+* AquaHash is the fastest hash function in this benchmark and it can process about 15bytes/cycle.
+* clhash is still the second best hash function for large strings, however, it is still 60% slower than AquaHash from our benchmark.
+* boost::hash is still the worse hash function in this benchmark. It is about 50x slower than AquaHash.
 
 <!-- ## Window Linux Subsystem ## -->
 
@@ -100,36 +121,35 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 <!-- ![Large string performance](large_string_subsystem.png)  -->
 
-## aquahash vs md5sum vs xxhash vs sha*sum ##
+## aquahash command benchmark ##
 
-# Analysis #
+This benchmark will compare the runtime of aquahash command with other popular commands for computing checksum. Specifically, we will compare the performance of quahash with xxhsum64, md5sum, sha1sum, sha224sum, sha256sum, sha512sum.
 
-## Usability ##
+### Small files i.e some KB ###
 
-* farmhash is the worse in-term of usability. We cannot compile farmhash using provided configure script and have to use it as a header only library.
-* aquahash is not compilable using GNU gcc and users must use clang to compile AquaHash code.
-* std::hash does not take raw pointers and length. We need to use std::string when comparing the performance of all studied hash functions.
+``` shell
 
-## High level analysis ##
+```
+
+### Medium files i.e 1MB or above ###
+
+``` shell
+
+```
+
+### Large files i.e 100MB or above ###
+
+``` shell
+
+```
+
+# Other observations #
 
 * The performance of all hash functions is consistent in all platforms.
-* AquaHash is the fastest hash function in all of our benchmarks.
-* clhash starts to shine when the string size if greater than or equal to 96 bytes.
-* farmhash also has a very good performance for both small and large string.
-* std::hash has a reasonable performance.
-* boost::hash function is very slow it is 50x slower than AquaHash and 20x slower than std::hash.
 
-## Short string benchmark ##
+* farmhash is the worse in-term of usability. We cannot compile farmhash using provided configure script and have to use it as a header only library.
 
-* AquaHash is the best hash function i.e it is faster than all studied hash functions in all runs. This hash function can process about 6 bytes/cycle on average.
-* boost::hash is the worse hash function and its run-time seem to be quadratic to the size of the string.
-* clhash has very high overhead for small strings and it starts to catch up with farmhash when the string size is greater than or equal to 96 bytes.  
-* xxHash is not faster than std::hash for small strings. 
+* aquahash is not compilable using GNU gcc and users must use clang to compile AquaHash code.
 
-## Large string benchmark ##
-
-* AquaHash is still the fastest hash function. It can process 15 bytes/cycle.
-* clhash is the second best hash function and its hashing speed is about 9 bytes/cycle. Note that the performance of clhash is at peek if the buffer size if divisible by 8.
-* farmhash also has a very good performance. Our performance benchmark shows that farmhash can process 8-9 bytes/cycle.
-* boost::hash is again the slowest hash function i.e 50x slower than AquaHash.
+* std::hash does not take raw pointers and length. We need to use std::string when comparing the performance of all studied hash functions.
 

@@ -14,8 +14,8 @@
 
 #include "aquahash.h"
 #include "clara.hpp"
-#include "fmt/format.h"
 #include "interface.h"
+#include "params.h"
 #include "reader.h"
 #include "stream.h"
 #include "utils.h"
@@ -26,41 +26,28 @@ namespace {
     void copyright() { printf("\n%s\n", "Report bugs or enhancement requests to hungptit@gmail.com"); }
     void usage() {
         printf("\nExamples:\n");
-        printf("\nExamples:\n");
+        printf("\taquahash file1 file2 file3:\n");
     }
 
-    enum PARAMS : uint32_t {
-        VERBOSE = 1,
-        COLOR = 1 << 1,
-    };
-
-    struct InputParams {
-        int flags;
-        std::vector<std::string> files;
-
-        bool verbose() const { return (flags & VERBOSE) > 0; }
-
-        void print() const {
-            fmt::print("File information databases: [\"{}\"]\n", fmt::join(files, "\",\""));
-        }
-    };
-
-    InputParams parse_input_arguments(int argc, char *argv[]) {
-        InputParams params;
+    void parse_input_arguments(int argc, char *argv[]) {
         bool verbose = false;
         bool version = false;
+        bool color = false;
+        bool big_endian = false;
+        bool use_xxhash = false;
         bool help = false;
-        std::vector<std::string> dbs;
-        std::set<std::string> lookup;
-
+        int flags = 0;
+        std::vector<std::string> files;
         auto cli = clara::Help(help) |
                    clara::Opt(verbose)["-v"]["--verbose"]("Display verbose information") |
                    clara::Opt(version)["--version"]("Display the version of aquahash command.") |
-                   clara::Arg(params.files, "files")("Input files");
+                   clara::Opt(use_xxhash)["--use-xxhash"]("Compute checksum using XXHASH64 algorithm.") |
+                   clara::Opt(big_endian)["--big-endian"]("Display a hash string using big endian order.") |
+                   clara::Arg(files, "files")("Input files");
 
         auto result = cli.parse(clara::Args(argc, argv));
         if (!result) {
-            fmt::print(stderr, "Invalid option: {}\n", result.errorMessage());
+            fprintf(stderr, "Invalid option: %s\n", result.errorMessage().data());
             exit(EXIT_FAILURE);
         }
 
@@ -73,29 +60,26 @@ namespace {
         if (help) {
             std::ostringstream oss;
             oss << cli;
-            fmt::print("{}", oss.str());
+            printf("%s", oss.str().data());
             usage();
             copyright();
             exit(EXIT_SUCCESS);
         }
 
+        flags = (verbose ? aquahash::Params::VERBOSE : aquahash::Params::NONE) |
+                (color ? aquahash::Params::COLOR : aquahash::Params::NONE);
+
         // Display input arguments in JSON format if verbose flag is on
-        if (params.verbose()) {
-            params.print();
+        if (aquahash::Params::verbose(flags)) {
+            aquahash::Params::print(flags);
         }
 
-        return params;
-    }
-
-    void compute(const InputParams &params) {
-        for (auto &file : params.files) {
-            aquahash::FileReader<aquahash::ComputeHashPolicy> hasher;
+        // Compute the hash code
+        for (auto const &file : files) {
+            aquahash::FileReader<aquahash::AquaHashPolicy> hasher(flags);
             hasher(file.data());
-        };
+        }
     }
 } // namespace
 
-int main(int argc, char *argv[]) {
-    auto params = parse_input_arguments(argc, argv);
-    compute(params);
-}
+int main(int argc, char *argv[]) { parse_input_arguments(argc, argv); }

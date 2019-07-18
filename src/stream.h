@@ -15,15 +15,17 @@
 #pragma once
 
 #include <aquahash.h>
+#include <params.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <utils.h>
 
 namespace aquahash {
-    class ComputeHashPolicy {
+    class AquaHashPolicy {
       public:
         static constexpr size_t BUFFER_SIZE = 1 << 16;
-        ComputeHashPolicy() : count(0), seed(_mm_setzero_si128()), hashcode(seed), aqua(seed), writer() {}
+        AquaHashPolicy(const int args)
+            : count(0), seed(_mm_setzero_si128()), hashcode(seed), aqua(seed), writer(), flags(args) {}
 
         /* Update the hash code */
         void process(const char *buffer, const size_t len) {
@@ -38,7 +40,11 @@ namespace aquahash {
         /* Finalize the process and return the hash string. */
         void finalize(const std::string &filename) {
             if (count > 1) hashcode = aqua.Finalize();
-            printf("%s  %s\n", writer(hashcode), filename.data());
+            if (Params::color(flags)) {
+                printf("%s  %s\n", writer(hashcode), filename.data());
+            } else {
+                printf("%s  %s\n", writer(hashcode), filename.data());
+            }
         }
 
       private:
@@ -47,5 +53,6 @@ namespace aquahash {
         __m128i hashcode;
         AquaHash aqua;
         HashCodeWriter writer;
+        int flags;
     };
 } // namespace aquahash
