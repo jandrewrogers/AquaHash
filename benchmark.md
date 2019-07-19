@@ -58,15 +58,19 @@ CPU Caches:
 
 **Compiler**: clang-8.0.0
 
-## Test data ##
+## Benchmarks ##
 
 ### Hash functions ###
 
 This benchmark will generate a random string then collect the performance benchmark results for each hash functions. The output data will be stored in JSON format.
 
-### Hash table ###
+### Checksum commands ###
 
-This benchmark will use a hash table to construct a hash set from randomly generated strings.
+This benchmark will compare the performance of auquahash command and popular checksum commands i.e xxhsum, md5sum, and sha1sum.
+
+### Hash table (WIP) ###
+
+This benchmark will measure the insertion, deletion, and lookup of std::unordered_map using different hash functions and test keys are randomly generated strings.
 
 # Results #
 
@@ -79,6 +83,7 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 **Analysis**
 * AquaHash is the fastest hash function for small keys with the average speed about 4 bytes/cycle.
 * farmhash has a very good performance and its performance is jumped when the string size is divisible by 32.
+* clhash is the second best hash function when the string size **is greater than or equal to 96 bytes**.
 * boost::hash is the worse hash function and it is significantly slower than other hash functions.
 
 ### Large string benchmarks ###
@@ -87,7 +92,7 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 
 **Analysis**
 * The performance of most hash functions is linear to the size of test strings.
-* AquaHash is still the fastest hash function. It can processes 10 bytes/cycle.
+* AquaHash is still the fastest hash function and it can processes 10 bytes/cycle.
 * clhash is the second best hash function.
 * boost::hash and std::hash are slowest hash functions from our benchmark.
 
@@ -111,7 +116,7 @@ This benchmark will use a hash table to construct a hash set from randomly gener
 * clhash is still the second best hash function for large strings, however, it is still 60% slower than AquaHash from our benchmark.
 * boost::hash is still the worse hash function in this benchmark. It is about 50x slower than AquaHash.
 
-## aquahash command benchmark ##
+## AquaHash command benchmark ##
 
 This benchmark will compare the runtime of aquahash command with other popular commands for computing checksum. Specifically, we will compare the performance of quahash with xxhsum64, md5sum, sha1sum, sha224sum, sha256sum, sha512sum.
 
@@ -174,9 +179,9 @@ Completed in 00:03:03.410126
 
 ### Analysis ###
 
-* aquahash is the fastest command in all of our benchmarks.
-* xxhsum is the second best command and it is about 20% slower than aquahash.
-* The performance difference between the two best commands and other commands is 10x and it is the reason why xxHash is very popular for calculating the checksum in performance critical applications.
+* AquaHash is the fastest command in all of our benchmarks.
+* xxhsum is the second best command and it is about 20% slower than AquaHash. Note that xxhsum is portable and AquaHash is not.
+* The performance difference between the two best commands and other commands is 10x for medium and large files and it is the reason why xxHash is very popular for calculating the checksum in performance critical applications.
 
 # Other observations #
 
@@ -184,8 +189,8 @@ Completed in 00:03:03.410126
 
 * farmhash is the worse in-term of usability. We cannot compile farmhash using provided configure script and have to use it as a header only library.
 
-* aquahash is not compilable using GNU gcc and users must use clang to compile AquaHash code.
+* AquaHash is not compilable using GNU gcc and **users must use clang to compile AquaHash code**.
 
 * std::hash does not take raw pointers and length. We need to use std::string when comparing the performance of all studied hash functions.
 
-* Both aquahash and xxHash are good candidate for computing checksum. aquash may offer a higher quality because it is 128bit hash function.
+* Both AquaHash and xxHash are good candidates for computing checksum. AquaHash may offer a higher hash quality than xxHash because it is 128bit hash function.
