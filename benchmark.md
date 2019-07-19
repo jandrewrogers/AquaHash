@@ -4,7 +4,7 @@
 
 ### Compile the benchmark code ###
 
-I have a hard time compile the code using GNU gcc, try clang if you do not want to see [misterious error messages](https://github.com/jandrewrogers/AquaHash/issues/1).
+I am not able to compile the AquaHash code using GNU gcc, use clang if you do not want to see [misterious error messages](https://github.com/jandrewrogers/AquaHash/issues/1).
 
 **Download the source code**
 
