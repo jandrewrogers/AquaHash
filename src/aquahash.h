@@ -25,9 +25,9 @@
 class AquaHash {
   private:
     static constexpr unsigned int THRESHOLD = 64;
-    static constexpr size_t MAX_INPUT = std::numeric_limits<size_t>::max() - 1;
+    static constexpr size_t MAXLEN = std::numeric_limits<size_t>::max() - 1;
     // sentinel to prevent double finalization
-    static constexpr size_t FINALIZED = MAX_INPUT + 1;
+    static constexpr size_t FINALIZED = MAXLEN + 1;
 
     // 64 bit constants
     enum Constants64Bits : uint64_t {
@@ -104,7 +104,7 @@ class AquaHash {
     // Reference implementation of AquaHash small key algorithm
     static __m128i SmallKeyAlgorithm(const uint8_t *key, const size_t bytes,
                                      __m128i initialize = _mm_setzero_si128()) {
-        assert(bytes <= MAX_INPUT);
+        assert(bytes <= MAXLEN);
         __m128i hash = initialize;
 
         // bulk hashing loop -- 128-bit block size
@@ -159,7 +159,7 @@ class AquaHash {
     // Reference implementation of AquaHash large key algorithm
     static __m128i LargeKeyAlgorithm(const uint8_t *key, const size_t bytes,
                                      __m128i initialize = _mm_setzero_si128()) {
-        assert(bytes <= MAX_INPUT);
+        assert(bytes <= MAXLEN);
 
         // initialize 4 x 128-bit hashing lanes, for a 512-bit block size
         __m128 block[4] = {_mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_1, CONSTANT_64_2)),
@@ -264,7 +264,7 @@ class AquaHash {
     // Append key to existing hashing object state
     void Update(const uint8_t *key, size_t bytes) {
         assert(input_bytes != FINALIZED);
-        assert(bytes <= MAX_INPUT && MAX_INPUT - input_bytes >= bytes);
+        assert(bytes <= MAXLEN && MAXLEN - input_bytes >= bytes);
 
         if (bytes == 0) return;
 
