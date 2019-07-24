@@ -5,9 +5,14 @@ class: center, middle
 # Why do we need a hash function #
 
 * Hash table
+
 * Checksum
 
-# What is SIMD #
+# What is [SIMD](https://en.wikipedia.org/wiki/SIMD) #
+
+``` text
+Single instruction, multiple data (SIMD) is a class of parallel computers in Flynn's taxonomy. It describes computers with multiple processing elements that perform the same operation on multiple data points simultaneously. Such machines exploit data level parallelism, but not concurrency: there are simultaneous (parallel) computations, but only a single process (instruction) at a given moment. SIMD is particularly applicable to common tasks such as adjusting the contrast in a digital image or adjusting the volume of digital audio. Most modern CPU designs include SIMD instructions to improve the performance of multimedia use. SIMD is not to be confused with SIMT, which utilizes threads.
+```
 
 # What does [_mm_aesenc_si128](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=_mm_aesenc_si128&expand=233) do? #
 
@@ -44,14 +49,14 @@ Haswell	        7	    1
 Ivy Bridge	    8	    1
 ```
 
-# What is AquaHash? 
+# What is AquaHash?
 
 * Originally created by [J. Andrew Rogers](https://github.com/jandrewrogers)
 
 * My contributions:
   * Refactor and modernize the existing source code.
   * Add automated tests
-  * Add an extensive benchmark 
+  * Add an extensive benchmark
   * Add a quahash command and potentially several new commands.
   * Improving the existing algorithms.
 
@@ -86,4 +91,3 @@ Ivy Bridge	    8	    1
 * aquahash command is also the fastest command for computing a hash code for a file in MacOS and Linux.
 
 # Questions #
-
