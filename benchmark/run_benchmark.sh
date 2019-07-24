@@ -17,4 +17,4 @@ for idx in `seq 1 1 $N`;
 do
     LEN=$idx ./random_string --benchmark_format=json --benchmark_out="$data_dir/data_$idx.json"
 done
-./plot_benchmark_results.py $data_dir/data_ $N
+

@@ -15,16 +15,9 @@
 #include "aquahash.h"
 #include "interface.h"
 #include "utils.h"
+#include "test_utils.h"
 #include "clhash.h"
 
-std::string generate_random_string() {
-    const char *var = std::getenv("LEN");
-    if (var == nullptr) { throw std::runtime_error("LEN environment variable is required!"); }
-    int len = std::stoi(var);
-    std::cout << "String length: " << len << "\n";
-    aquahash::CharGenerator gen;
-    return gen(len);
-}
 
 const std::string test_string = generate_random_string();
 
