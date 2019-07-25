@@ -1,6 +1,6 @@
 class: center, middle
 
-# AquaHash: The fastest 128bit hash function
+# AquaHash: The fastest 128bit non-cryptogaphic hash function
 
 ---
 
@@ -59,6 +59,7 @@ Ivy Bridge	    8	    1
 # What is AquaHash?
 
 * Originally created by [J. Andrew Rogers](https://github.com/jandrewrogers)
+
 * My contributions:
   * Refactor and modernize the existing source code.
   * Add automated tests
@@ -68,11 +69,13 @@ Ivy Bridge	    8	    1
 
 ---
 
-# Small file algorithm
+# The small key algorithm
 
 ---
 
-# Big file algorithm
+# The large key algorithm
+
+* Use 4 **128bits lanes** to speed up the hash computation.
 
 ---
 
