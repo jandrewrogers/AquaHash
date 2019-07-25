@@ -21,7 +21,7 @@ class: center, middle
 
 # What does [_mm_aesenc_si128](https://software.intel.com/sites/landingpage/IntrinsicsGuide/#text=_mm_aesenc_si128&expand=233) do? #
 
-* Synopsis
+**Synopsis**
 
 ``` text
 __m128i _mm_aesenc_si128 (__m128i a, __m128i RoundKey)
@@ -30,11 +30,11 @@ Instruction: aesenc xmm, xmm
 CPUID Flags: AES
 ```
 
-* Description
+**Description**
 
 Perform one round of an AES encryption flow on data (state) in a using the round key in RoundKey, and store the result in dst."
 
-* Operation
+**Operation**
 
 ``` text
 state := a
@@ -44,7 +44,7 @@ a[127:0] := MixColumns(a[127:0])
 dst[127:0] := a[127:0] XOR RoundKey[127:0]
 ```
 
-* Performance
+**Performance**
 
 ``` text
 Architecture	Latency	Throughput (CPI)
