@@ -6,23 +6,39 @@
 
 I am not able to compile the AquaHash code using GNU gcc, use clang if you do not want to see [misterious error messages](https://github.com/jandrewrogers/AquaHash/issues/1).
 
-**Download the source code**
+#### Download the source code ####
 
 ``` shell
 git clone https://github.com/hungptit/AquaHash.git
 ```
 
-**Compile all required libraries and binaries**
+#### Compile all required libraries and binaries ####
 
 ``` shell
 cd AquaHash
 ./build.sh
 ```
 
-**Plot the results**
+### Run the benchmark ###
+
+Assuming the build process goes smoothly, below are commands that we can use to collect the benchmark results
+
+**Run individual benchmark for test hash functions**
 
 ``` shell
-./plot_benchmark_results.py data/Darwin/string/data_ 4000 500
+LEN=64 ./random_string
+```
+
+**Collect the benchmark results for a range**
+
+``` shell
+./run_benchmark.sh 128
+```
+
+### Plot the results ###
+
+``` shell
+./plot_benchmark_results.py data/Darwin/string/data_ 128 32
 ```
 
 # Experiment setup #
@@ -59,6 +75,8 @@ CPU Caches:
 **Compiler**: clang-8.0.0
 
 ## Benchmarks ##
+
+*Note: Benchmark results vary in different CPU architectures.*
 
 ### Hash functions ###
 
