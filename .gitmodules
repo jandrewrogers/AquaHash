@@ -26,3 +26,7 @@
 	path = 3p/src/Celero
 	url = https://github.com/DigitalInBlue/Celero.git
 	branch = master
+[submodule "3p/src/wyhash"]
+	path = 3p/src/wyhash
+	url = https://github.com/wangyi-fudan/wyhash.git
+	branch = master

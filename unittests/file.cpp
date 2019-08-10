@@ -1,6 +1,6 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
-#include "aquahash.h"
 #include "doctest/doctest.h"
+#include "aquahash.h"
 #include "fmt/format.h"
 #include "interface.h"
 #include "utils.h"

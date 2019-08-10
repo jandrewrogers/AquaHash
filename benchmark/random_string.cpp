@@ -17,6 +17,7 @@
 #include "utils.h"
 #include "test_utils.h"
 #include "clhash.h"
+#include "wyhash.h"
 
 
 const std::string test_string = generate_random_string();
@@ -71,12 +72,20 @@ void aquahash_string(benchmark::State &state) {
 }
 BENCHMARK(aquahash_string);
 
-void aquahash_convert_string(benchmark::State &state) {
+void aquahash64_string(benchmark::State &state) {
     aquahash::hash<std::string> h;
     for (auto _ : state) {
         benchmark::DoNotOptimize(h(test_string));
     }
 }
-BENCHMARK(aquahash_convert_string);
+BENCHMARK(aquahash64_string);
+
+void wyhash_string(benchmark::State &state) {
+    uint64_t seed = 0;
+    for (auto _ : state) {
+        benchmark::DoNotOptimize(wyhash(test_string.data(), test_string.size(), seed));
+    }
+}
+BENCHMARK(wyhash_string);
 
 BENCHMARK_MAIN();

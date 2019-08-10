@@ -11,7 +11,7 @@ include(AddCXXCompilerFlag)
 include(CXXFeatureCheck)
 
 set(CMAKE_CXX_COMPILER "clang++")
-add_cxx_compiler_flag(-stdlib=libc++)
+# add_cxx_compiler_flag(-stdlib=libc++)
 
 set (CMAKE_BUILD_TYPE Release)
 add_cxx_compiler_flag(-O3)
@@ -40,6 +40,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 # Include other headers such as fmt library.
 include_directories ("${EXTERNAL_DIR}/include")
 include_directories ("${EXTERNAL_DIR}/src/farmhash/src")
+include_directories ("${EXTERNAL_DIR}/src/wyhash")
 include_directories ("${EXTERNAL_DIR}/src/xxHash/")
 include_directories ("/usr/local/Cellar/boost/1.70.0/include/")
 
