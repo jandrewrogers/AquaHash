@@ -59,7 +59,7 @@ class AquaHash {
     };
 
     // 16 bit constants
-    enum Constant16Bits {
+    enum Constant16Bits : uint16_t {
         CONSTANT_16_1 = (CONSTANT_64_5 >> 48) & MASK_16BITS, // 0xbd3d
         CONSTANT_16_2 = (CONSTANT_64_5 >> 32) & MASK_16BITS, // 0xc2b7
         CONSTANT_16_3 = (CONSTANT_64_5 >> 16) & MASK_16BITS, // 0xb87c
@@ -70,7 +70,7 @@ class AquaHash {
     };
 
     // 8 bit constants
-    enum Constant8Bits {
+    enum Constant8Bits : uint8_t {
         CONSTANT_8_01 = (CONSTANT_64_7 >> 56) & MASK_8BITS, // 0xcc
         CONSTANT_8_02 = (CONSTANT_64_7 >> 48) & MASK_8BITS, // 0x96
         CONSTANT_8_03 = (CONSTANT_64_7 >> 40) & MASK_8BITS, // 0xed,
@@ -162,7 +162,7 @@ class AquaHash {
         assert(bytes <= MAXLEN);
 
         // initialize 4 x 128-bit hashing lanes, for a 512-bit block size
-        __m128 block[4] = {_mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_1, CONSTANT_64_2)),
+        __m128i block[4] = {_mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_1, CONSTANT_64_2)),
                            _mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_3, CONSTANT_64_4)),
                            _mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_5, CONSTANT_64_6)),
                            _mm_xor_si128(initialize, _mm_set_epi64x(CONSTANT_64_7, CONSTANT_64_8))};
