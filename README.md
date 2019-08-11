@@ -4,11 +4,11 @@ AquaHash is a 128-bit non-cryptographic hash function that delivers state-of-the
 
 ## Performance
 
-AquaHash substantially outperforms most common hash functions at all key sizes on recent CPUs. Bulk hashing performance is an exceptional 15 bytes/cycle. Small key performance is nearly twice that of other modern small key algorithms. 
+AquaHash substantially [outperforms most common hash functions at all key sizes on recent CPUs](benchmark.md). Bulk hashing performance is an exceptional 15 bytes/cycle. Small key performance is nearly twice that of other modern small key algorithms.
 
 The performance graph below includes xxhash64 and Google's FarmHash for reference, popular algorithms optimized for small keys and large keys respectively. Intel’s Skylake microarchitecture was used to measure all algorithms.
 
-![Small Key Performance](aquahash.png) 
+![Small Key Performance](aquahash.png)
 
 Some reduction in relative performance is expected on older CPUs with slower AES intrinsics but should remain competitive due to the large differences in baseline performance.
 
@@ -50,3 +50,5 @@ __m128i hash = AquaHash::LargeKeyAlgorithm(uint8_t * key, size_t bytes, __m128i 
 ## Current Status
 
 **2019-03-06** Initial v1.0 release of the algorithm source code. Includes both incremental and non-incremental implementations, as well as reference implementations of the underlying large key and small key component algorithms. Test vectors and an implementation verification method are included.
+
+**2019-08-11** Refactor aquahash.h, fix all compilation errors for GNU gcc, create benchmarks and unit tests, add aquahash command, and add interface classes for STL.
