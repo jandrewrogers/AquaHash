@@ -41,9 +41,9 @@ namespace aquahash {
         void finalize(const std::string &filename) {
             if (count > 1) hashcode = aqua.Finalize();
             if (Params::color(flags)) {
-                printf("\033[1;32m%s  \033[1;34m%s\033[0m\n", writer(hashcode), filename.data());
+                printf("\033[1;32m%s  \033[1;34m%s\033[0m\n", writer(hashcode).c_str(), filename.data());
             } else {
-                printf("%s  %s\n", writer(hashcode), filename.data());
+                printf("%s  %s\n", writer(hashcode).c_str(), filename.data());
             }
         }
 

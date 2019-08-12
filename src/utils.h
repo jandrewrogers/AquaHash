@@ -36,24 +36,34 @@ namespace aquahash {
         std::mt19937 rgn;
         static constexpr int N = 62;
         const std::array<char, N> valid_characters = {
-            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-             'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F',
-             'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V',
-             'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
+            {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u',
+             'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P',
+             'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'}};
     };
 
     class AquaHashWriter {
       private:
-        static constexpr int BUFFER_SIZE = 16;
-        char buffer[BUFFER_SIZE * 2];
+        static constexpr int BUFFER_SIZE = 1024;
+        char buffer[BUFFER_SIZE];
+        const char *data =
+            "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122232425262728292a2b2c2d2e"
+            "2f303132333435363738393a3b3c3d3e3f404142434445464748494a4b4c4d4e4f505152535455565758595a5b5c5d"
+            "5e5f606162636465666768696a6b6c6d6e6f707172737475767778797a7b7c7d7e7f808182838485868788898a8b8c"
+            "8d8e8f909192939495969798999a9b9c9d9e9fa0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babb"
+            "bcbdbebfc0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedfe0e1e2e3e4e5e6e7e8e9ea"
+            "ebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff";
+
       public:
-        const char *operator()(__m128i value) {
-            alignas(16) uint8_t v[BUFFER_SIZE];
-            _mm_store_si128((__m128i *)v, value);
-            for (int idx = 0; idx < BUFFER_SIZE; ++idx) {
-                sprintf(buffer + idx * 2, "%02x", v[idx]);
+        std::string operator()(__m128i value) {
+            alignas(16) uint8_t __attribute__((aligned(16))) v[sizeof(__m128i)];
+            _mm_storeu_si128((__m128i *)v, value);
+            char *ptr = buffer;
+            for (int idx = 0; idx < sizeof(__m128i); ++idx) {
+                const int pos = v[idx] * 2;
+                *ptr++ = data[pos];
+                *ptr++ = data[pos + 1];
             }
-            return buffer;
+            return std::string(buffer, sizeof(__m128i) * 2);
         }
     };
 } // namespace aquahash

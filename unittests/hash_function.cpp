@@ -195,7 +195,9 @@ TEST_CASE("Print") {
     std::vector<int> key{1, 2, 3, 4, 5, 6, 7, 8};
     __m128i hashcode = AquaHash::Hash((uint8_t *)(key.data()), key.size());
     aquahash::AquaHashWriter writer;
-    constexpr char result_u8[] = "9ee33294c37d7fe240e74296aa60bee0";
+    char result_u8[] = "9ee33294c37d7fe240e74296aa60bee0";
+    // fmt::print("Hashcode u8: {}\n", writer(hashcode));
+    CHECK(strncmp(writer(hashcode).data(), result_u8, 32) == 0);
     fmt::print("Hashcode u8: {}\n", writer(hashcode));
-    CHECK(strncmp(writer(hashcode), result_u8, 32) == 0);
+    fmt::print("Hashcode u8: {}\n", result_u8);
 }
